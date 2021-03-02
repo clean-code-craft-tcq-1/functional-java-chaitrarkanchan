@@ -1,11 +1,11 @@
 package vitals;
 
-public class Battery {
+public class StateEstimator {
 	float temperature;
 	float soc;
 	float chargeRate;
 
-	public Battery(float temperature, float soc, float chargeRate) {
+	public StateEstimator(float temperature, float soc, float chargeRate) {
 		this.temperature = temperature;
 		this.soc = soc;
 		this.chargeRate = chargeRate;
