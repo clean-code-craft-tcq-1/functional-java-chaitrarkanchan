@@ -19,4 +19,9 @@ jobs:
     - name: Build
       run: javac vitals/BMS.java
     - name: Verify
+      run: java -ea -classpath . vitals.BMS
+    
+    
+    
+    
       run: java -ea -classpath . vitals.Main
