@@ -27,15 +27,15 @@ public class StateEstimator {
 		boolean status_of_soc=isSocWithinRange(this.stateofcharge);
 		boolean status_of_charge=isChargeWithinRange(this.chargeRate);
 		if((status_of_temp && status_of_soc) && status_of_charge) {
-			displayMsg(UserDisplayMsg.All_PARAM_RANGE_OK +"!");
 			return true;
 		}
 		return false;
 	}
 	
 	
-	private UserDisplayMsg isVitalParamStatus(float max_val, float vital_param) {
-		 return (vital_param>max_val) ? (UserDisplayMsg) UserDisplayMsg.BRECH_HIGH :(UserDisplayMsg) UserDisplayMsg.BRECH_LOW; }
+	private String isVitalParamStatus(float max_val, float vital_param) {
+		  return (vital_param>max_val) ? "high" : "low"; 
+		 }
 	
 	
 	private boolean isVitalParamWithinRange(float min_val, float max_val, float vital_param) { 
@@ -44,12 +44,14 @@ public class StateEstimator {
 	
 	public boolean isTemperatureWithinRange(float temperature) {		
 		if(isVitalParamWithinRange(MIN_TEMPERATURE,MAX_TEMPERATURE, temperature)){
+			System.out.println("Temperature is out of range and is " + isVitalParamStatus(MAX_TEMPERATURE , temperature) + "!");
+			return false;
 		}	
 		return true;
 	}
 	public boolean isSocWithinRange(float stateofcharge) {
 		if(isVitalParamWithinRange(MIN_SOC,MAX_SOC, stateofcharge)){
-			displayMsg(UserDisplayMsg.SOC_OUT_OF_RANGE+" " +isVitalParamStatus(MAX_SOC , stateofcharge));
+			System.out.println("Temperature is out of range and is " + isVitalParamStatus(MAX_SOC , temperature) + "!");
 			return false;
 		}	
 		return true;
@@ -57,13 +59,10 @@ public class StateEstimator {
 	public boolean isChargeWithinRange(float chargeRate) {
 		if(isVitalParamStatus(MAX_CHARGE_RATE, chargeRate).equals("high"))
 		{
-			displayMsg(UserDisplayMsg.CR_OUT_OF_RANGE+" "+UserDisplayMsg.BRECH_HIGH);
+			System.out.println("Charge Rate is out of range!");
             return false;
 		}
 		return true;
 	}
 
-	public void displayMsg(String msg) {
-		System.out.println(msg);
-	}
 }
