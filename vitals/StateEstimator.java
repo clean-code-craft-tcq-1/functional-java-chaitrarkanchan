@@ -1,46 +1,69 @@
 package vitals;
 
 public class StateEstimator {
+	
+	final float MAX_TEMPERATURE = 45;
+	final float MIN_TEMPERATURE = 0;
+	final float MAX_SOC= 80;
+	final float MIN_SOC= 20;
+	final float MAX_CHARGE_RATE= 0.8f;
+	
 	float temperature;
-	float soc;
+	float stateofcharge;
 	float chargeRate;
-
+	
+	String msg=null;
+	
+	public StateEstimator() {
+		
+	}
 	public StateEstimator(float temperature, float soc, float chargeRate) {
 		this.temperature = temperature;
-		this.soc = soc;
+		this.stateofcharge = soc;
 		this.chargeRate = chargeRate;
 	}
 	public boolean isBatteryOk() {
-		return (isTemperatureOk() && isSocOk()) && isChargeRateOk();
+		boolean status_of_temp=isTemperatureWithinRange(this.temperature);
+		boolean status_of_soc=isSocWithinRange(this.stateofcharge);
+		boolean status_of_charge=isChargeWithinRange(this.chargeRate);
+		if((status_of_temp && status_of_soc) && status_of_charge) {
+			displayMsg(UserDisplayMsg.All_PARAM_RANGE_OK +"!");
+			return true;
+		}
+		return false;
 	}
-	public boolean isTemperatureOk() {		
-		if(!isFactorOk(Constants.TEMPERATURE_MIN_THRESHOLD, Constants.TEMPERATURE_MAX_THRESHOLD, temperature))
-		{
-			System.out.println("Temperature is out of range and is " + isFactorHigh(Constants.TEMPERATURE_MAX_THRESHOLD , temperature) + "!");
+	
+	
+	private UserDisplayMsg isVitalParamStatus(float max_val, float vital_param) {
+		 return (vital_param>max_val) ? (UserDisplayMsg) UserDisplayMsg.BRECH_HIGH :(UserDisplayMsg) UserDisplayMsg.BRECH_LOW; }
+	
+	
+	private boolean isVitalParamWithinRange(float min_val, float max_val, float vital_param) { 
+			 return (vital_param < min_val || vital_param > max_val); }
+	 
+	
+	public boolean isTemperatureWithinRange(float temperature) {		
+		if(isVitalParamWithinRange(MIN_TEMPERATURE,MAX_TEMPERATURE, temperature)){
+		}	
+		return true;
+	}
+	public boolean isSocWithinRange(float stateofcharge) {
+		if(isVitalParamWithinRange(MIN_SOC,MAX_SOC, stateofcharge)){
+			displayMsg(UserDisplayMsg.SOC_OUT_OF_RANGE+" " +isVitalParamStatus(MAX_SOC , stateofcharge));
 			return false;
 		}	
 		return true;
 	}
-	public boolean isSocOk() {
-		if(!isFactorOk(Constants.SOC_MIN_THRESHOLD, Constants.SOC_MAX_THRESHOLD, soc))
+	public boolean isChargeWithinRange(float chargeRate) {
+		if(isVitalParamStatus(MAX_CHARGE_RATE, chargeRate).equals("high"))
 		{
-			System.out.println("State of charge is out of range and is " + isFactorHigh(Constants.SOC_MAX_THRESHOLD , soc) + "!");
-			return false;
-		}	
-		return true;
-	}
-	public boolean isChargeRateOk() {
-		if(isFactorHigh(Constants.CHARGE_RATE_MAX_THRESHOLD, chargeRate).equals("high"))
-		{
-			System.out.println("Charge Rate is out of range!");
+			displayMsg(UserDisplayMsg.CR_OUT_OF_RANGE+" "+UserDisplayMsg.BRECH_HIGH);
             return false;
 		}
 		return true;
 	}
-	private String isFactorHigh(float max, float factor) {
-		return (factor>max) ? "high" : "low"; 
-	}
-	private boolean isFactorOk(float min, float max, float value) {
-		return !(value < min || value > max); 
+
+	public void displayMsg(String msg) {
+		System.out.println(msg);
 	}
 }
