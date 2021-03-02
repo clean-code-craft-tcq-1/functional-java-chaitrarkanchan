@@ -1,6 +1,6 @@
 package vitals;
 
-public class BMS {
+public class Main {
 	static boolean batteryIsOk(float temperature, float soc, float chargeRate) {       
         StateEstimator state_estimator = new StateEstimator(temperature, soc, chargeRate);
         return state_estimator.isBatteryOk();
