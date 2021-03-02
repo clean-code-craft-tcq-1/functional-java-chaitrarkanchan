@@ -7,7 +7,6 @@ public class BMS {
     }
 	
     public static void main(String[] args) {
-    	
     	StateEstimator state_estimator = new StateEstimator();
         assert(batteryIsOk(25, 70, 0.7f) == true);
         assert(batteryIsOk(30, 85, 0.0f) == false);
