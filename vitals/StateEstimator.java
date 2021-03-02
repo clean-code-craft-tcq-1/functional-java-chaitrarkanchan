@@ -24,7 +24,7 @@ public class StateEstimator {
 		boolean status_of_temp=isTemperatureWithinRange(this.temperature);
 		boolean status_of_soc=isSocWithinRange(this.stateofcharge);
 		boolean status_of_charge=isChargeWithinRange(this.chargeRate);
-		return (status_of_temp && status_of_soc) && status_of_charge);
+		return ((status_of_temp && status_of_soc) && status_of_charge);
 	}
 	
 	
