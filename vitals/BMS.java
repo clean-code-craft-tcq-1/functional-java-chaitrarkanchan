@@ -2,8 +2,8 @@ package vitals;
 
 public class BMS {
 	static boolean batteryIsOk(float temperature, float soc, float chargeRate) {       
-        Battery battery = new Battery(temperature, soc, chargeRate);
-        return battery.isBatteryOk();
+        StateEstimator stateestimator = new StateEstimator(temperature, soc, chargeRate);
+        return stateestimator.isBatteryOk();
     }
     public static void main(String[] args) {
         assert(batteryIsOk(25, 70, 0.7f) == true);
