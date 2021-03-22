@@ -18,7 +18,7 @@ public class BatteryManagementSystem {
         assert(batteryIsOk(-1, -20, 0.7f)==false);
         assert(batteryIsOk(60, 90, 0.9f)==false);
         assert(factor_estimator.isTemperatureWithinRange(25)==true);
-        assert(factor_estimator.isTemperatureWithinRange(50)==false);
-        assert(factor_estimator.isChargeWithinRange(-20)==false);
+        assert(factor_estimator.isChargeWithinRange(0.7)==true);
+        assert(factor_estimator.isSocWithinRange(-20)==false);
     }
 }
